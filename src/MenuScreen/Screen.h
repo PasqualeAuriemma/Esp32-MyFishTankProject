@@ -1345,16 +1345,17 @@ public:
   /**
    * @fn setChangingPage
    * @brief Setting changingPage value.
-   * @param keyPad: key pressed
+   * @param value: value to set
    * @return ChangingPage boolean value.
    */ 
   void setChangingPage(bool value) { this->changingPage = value; }
   
   /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+   * @fn setHourAndMinutes
+   * @brief Set the temp array with time values through the input parameters.
+   * @param _hour: selected hour
+   * @param _minutes: selected minute
+   * @return Setting array values.
    */ 
   void setHourAndMinutes(const byte _hour, const byte _minutes)
   {
@@ -1362,31 +1363,12 @@ public:
     hourEMinTimeClockTemp[1] = _minutes;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   /**
    * @fn setRecoveryHourAndMinutes
-   * @brief 
-   * @param 
-   * @return Variables saving.
+   * @brief Set the temp array with recovery time values through the input parameters.
+   * @param _hour: selected hour
+   * @param _minutes: selected minute
+   * @return Setting array values.
    */ 
   void setRecoveryHourAndMinutes(const byte _hour, const byte _minutes)
   {
@@ -1396,9 +1378,11 @@ public:
    
   /**
    * @fn setDayMonthYear
-   * @brief 
-   * @param 
-   * @return Variables saving.
+   * @brief Set the temp array with date values through the input parameters.
+   * @param _day: selected hour
+   * @param _month: selected minute
+   * @param _year: selected minute 
+   * @return Setting array values.
    */ 
   void setDayMonthYear(const int _day, const int _month, const int _year)
   {
@@ -1409,9 +1393,12 @@ public:
   
   /**
    * @fn setTimerLights
-   * @brief 
-   * @param  
-   * @return Variables saving.
+   * @brief Set the temp array with timer values through the input parameters.
+   * @param startH: hour to turn on the light
+   * @param startM: minute to turn on the light
+   * @param endH: hour to turn off the light
+   * @param endM: minute to turn off the light
+   * @return Setting array values.
    */ 
   void setTimerLights(int startH, int startM, int endH, int endM)
   {
@@ -1423,191 +1410,178 @@ public:
   
   /**
    * @fn setRow
-   * @brief 
-   * @param 
-   * @return Variables saving.
+   * @param value: row value.
+   * @return Setting row value.
    */ 
   void setRow(int value) { this->rowItem = value; }
   
   /**
    * @fn getRow
-   * @brief
-   * @return Variables saving.
+   * @return Getting row value.
    */ 
   int getRow() { return rowItem; }
 
   /**
    * @fn setMonitorEC
-   * @brief
-   * @param  
-   * @return Variables saving.
+   * @param value: monitoring value
+   * @return Setting boolean value to enable the EC monitoring.
    */ 
   void setMonitorEC(bool value) { this->monitorEC = value; }
   
   /**
    * @fn checkIfShowECMonitoringOnScreen
-   * @brief
-   * @return Variables saving.
+   * @return Getting value to enable the EC monitoring.
    */ 
   bool checkIfShowECMonitoringOnScreen() { return monitorEC; }
   
   /**
    * @fn setConnectionShow
-   * @brief 
-   * @param 
-   * @return Variables saving.
+   * @param value: value to set
+   * @return Setting value to enable the connection status.
    */ 
   void setConnectionShow(bool value) { this->connectionShow = value; }
   
   /**
    * @fn getConnectionShow
-   * @brief 
-   * @return Variables saving.
+   * @return Getting value to enable the connection status.
    */ 
   bool getConnectionShow() { return connectionShow; }
   
   /**
-   * @fn setMonitorPH
-   * @brief    
-   * @param  
-   * @return Variables saving.
+   * @fn setMonitorPH  
+   * @param value: value to set 
+   * @return Setting value to enable the connection status.
    */ 
   void setMonitorPH(bool value) { this->monitorPH = value; }
   
   /**
    * @fn setManualSendingEC
-   * @brief 
-   * @param 
-   * @return Variables saving.
+   * @param value: value to set
+   * @return Setting value to enable the manual web sending of Ec value.
    */ 
   void setManualSendingEC(bool value) { this->manualSendingEC = value; }
   
   /**
    * @fn checkIfSendECToWebManually
-   * @brief 
-   * @return Variables saving.
+   * @return Getting value to enable the manual web sending of Ec value.
    */ 
   bool checkIfSendECToWebManually() { return manualSendingEC; }
-    /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+  
+  /**
+   * @fn setManualSendingTemperature
+   * @param value: value to set
+   * @return Setting value to enable the manual web sending of temperature value.
    */ 
   void setManualSendingTemperature(bool value) { this->manualSendingTemperature = value; }
-    /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+  
+  /**
+   * @fn checkIfSendTemperatureToWebManually
+   * @return Getting value to enable the manual web sending of temperature value.
    */ 
   bool checkIfSendTemperatureToWebManually() { return manualSendingTemperature; }
-    /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+  
+  /**
+   * @fn setManualSendingPH
+   * @param value: value to set
+   * @return Setting value to enable the manual web sending of Ph value.
    */ 
   void setManualSendingPH(bool value) { this->manualSendingPH = value; }
-    /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+  
+  /**
+   * @fn checkIfSendPHToWebManually
+   * @return Getting value to enable the manual web sending of Ph value.
    */ 
   bool checkIfSendPHToWebManually() { return manualSendingPH; }
-    /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+  
+  /**
+   * @fn checkIfShowPHMonitoringOnScreen
+   * @return Getting value to enable the Ph manual monitoring.
    */ 
   bool checkIfShowPHMonitoringOnScreen() { return monitorPH; }
-    /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+  
+  /**
+   * @fn setActiveMenu
+   * @param value: value to set
+   * @return Setting activeMenu variable.
    */ 
   void setActiveMenu(byte value) { this->activeMenu = value; }
-    /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+  
+  /**
+   * @fn getActiveMenu 
+   * @return Getting activeMenu variable value.
    */ 
   byte getActiveMenu() { return activeMenu; }
-    /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+  
+  /**
+   * @fn setColumn
+   * @param value: selected minute
+   * @return Setting column value.
    */ 
   void setColumn(int value) { this->colItem = value; }
-    /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+  
+  /**
+   * @fn getColumn
+   * @return Column value.
    */ 
   int getColumn() { return colItem; }
-    /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+  
+  /**
+   * @fn setRowMainMenuMem
+   * @param value: value to set
+   * @return Setting row value.
    */ 
   void setRowMainMenuMem(byte value) { this->rowItemMainMenu = value; }
-    /**
-   * @fn saveFreqUpdateWeb
-   * @brief Anonimous function to specify in the main file to save the uploading rates of EC, PH and Temperature
-   *  in SD Card. 
-   * @return Variables saving.
+  
+  /**
+   * @fn setTemperatureRange
+   * @brief Set the temp array with Temperature range values through the input parameters.
+   * @param _min: selected min temperature value
+   * @param _max: selected max temperature value
+   * @return Setting array values.
    */ 
   void setTemperatureRange(byte _min, byte _max)
   {
     temperatureMinAndMaxTemp[0] = _min;
     temperatureMinAndMaxTemp[1] = _max;
   }
-    /**
+
+  /**
    * @fn setRowManualMenuMem
-   * @brief 
-   * @return Variables saving.
+   * @param value: value to set
+   * @return Setting row value.
    */ 
   void setRowManualMenuMem(byte value) { this->rowItemManualMenu = value; }
   
   /**
    * @fn setRowSettingMenuMem
-   * @brief 
-   * @return Variables saving.
+   * @param value: value to set
+   * @return Setting row value.
    */ 
   void setRowSettingMenuMem(byte value) { this->rowItemSettingMenu = value; }
   
   /**
    * @fn getRowMainMenuMem
-   * @brief 
-   * @return Variables saving.
+   * @return Getting row value.
    */ 
   byte getRowMainMenuMem() { return rowItemMainMenu; }
   
   /**
    * @fn getRowManualMenuMem
-   * @brief 
-   * @return Variables saving.
+   * @return Getting row value.
    */ 
   byte getRowManualMenuMem() { return rowItemManualMenu; }
   
   /**
    * @fn getRowSettingMenuMem
-   * @brief 
-   * @return Variables saving.
+   * @return Getting row value.
    */ 
   byte getRowSettingMenuMem() { return rowItemSettingMenu; }
   
   /**
    * @fn indexNumber
-   * @brief 
-   * @return Variables saving.
+   * @brief Finding index of comparable value
+   * @param freq: rate value
+   * @return Index of same value.
    */ 
   byte indexNumber(byte freq)
   {
@@ -1624,12 +1598,11 @@ public:
   /**
    * @fn manageYearRangeCursor
    * @brief Managing the cursor to move inside the menu for year setting
-   
-   
-   
-   
-   
-   * @return Variables saving.
+   * @param keyPad: key pressed
+   * @param row: selected row
+   * @param number: current year value
+   * @param maxItem: Maximum selectable year 
+   * @return New year value.
    */ 
   int manageYearRangeCursor(int keyPad, int row, int number, int maxItem)
   {
@@ -1665,13 +1638,13 @@ public:
   /**
    * @fn manageDayRangeCursor
    * @brief Managing the cursor to move inside the menu for day setting
-   * 
-   * 
-   * 
-   * 
-   *  
-   * @return Variables saving.
-   */
+   * @param keyPad: key pressed
+   * @param row: selected row
+   * @param _month: current month value
+   * @param _year: current year value 
+   * @param number: current day value
+   * @return New day value.
+   */ 
   int manageDayRangeCursor(int keyPad, int row, int _month, int _year, int number)
   {
     switch (keyPad)
@@ -1702,10 +1675,11 @@ public:
   /**
    * @fn manageMenuRangeNumberCursors
    * @brief Managing the cursor to move inside the menu 
-   * 
-   * 
-   * 
-   *  
+   * @param keyPad: key pressed 
+   * @param row: selected row 
+   * @param number: current cursor value
+   * @param minItem: minimum value of the range
+   * @param maxItem: maximun value of the range  
    * @return Variables setting.
    */ 
   int manageMenuRangeNumberCursors(int keyPad, int row, int number, int minItem, int maxItem)

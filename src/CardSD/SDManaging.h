@@ -2,7 +2,7 @@
 #define SDManaging_H
 
 /*
- * 
+   Aquarium Project Pasquale
  */
 
 #include <Arduino.h>

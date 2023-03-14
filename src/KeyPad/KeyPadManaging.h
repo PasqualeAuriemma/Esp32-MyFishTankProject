@@ -1,45 +1,56 @@
+/*
+  Aquarium Project Pasquale
+*/
+
 #ifndef KeyPadManaging_h
 #define KeyPadManaging_h
 
 #include <Arduino.h>
 
-class KeyPad {
+class KeyPad
+{
 
-  private: 
-    byte keypadPin;
-    byte *codeKeys;
+private:
+  byte keypadPin;
+  byte *codeKeys;
 
-  public:
-    KeyPad(byte pin, byte *codes){ 
-      setPin(pin);
-      setKeyCode(codes);  
-    }
+public:
+  KeyPad(byte pin, byte *codes)
+  {
+    setPin(pin);
+    setKeyCode(codes);
+  }
 
-    ~KeyPad(){}
+  ~KeyPad() {}
 
-    byte getPin(){ return keypadPin;}
-    
-    byte* getKeyCode(){ return codeKeys;}
+  byte getPin() { return keypadPin; }
 
-    void setKeyCode(byte *code){ this->codeKeys = code;}
-    
-    void setPin(byte pin){ this->keypadPin = pin;}
+  byte *getKeyCode() { return codeKeys; }
 
-    byte getKeyPadValue();
+  void setKeyCode(byte *code) { this->codeKeys = code; }
 
-    byte getNullKeyPadValue();
+  void setPin(byte pin) { this->keypadPin = pin; }
 
-    byte getResetKeyPadValue();
+  /**
+   * @fn conectionStatus
+   * @brief Get kayboard value from analogic signal.
+   * @return Key value pressed.
+   */
+  byte getKeyPadValue();
 
-    byte getLeftKeyPadValue();
- 
-    byte getRightKeyPadValue();
- 
-    byte getUpKeyPadValue();
+  byte getNullKeyPadValue();
 
-    byte getDownKeyPadValue();
-    
-    byte getOkKeyPadValue();
+  byte getResetKeyPadValue();
+
+  byte getLeftKeyPadValue();
+
+  byte getRightKeyPadValue();
+
+  byte getUpKeyPadValue();
+
+  byte getDownKeyPadValue();
+
+  byte getOkKeyPadValue();
 };
 
 #endif

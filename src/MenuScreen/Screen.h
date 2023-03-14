@@ -787,7 +787,8 @@ public:
 
   /**
    * @fn manageReleSymbolAndAction
-   * @brief Anonimous function to specify in the main file to manage each rele
+   * @brief Anonimous function to specify in the main file to manage each rele turning on or turning off 
+   * the selected rele and show them on screen.
    * @param index: Index of the rele to manage
    * @param onOff: Value to set the rele on or off
    * @return Rele managing.

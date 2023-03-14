@@ -512,7 +512,6 @@ void Screen::checkScreenBackLight(int keyPad, byte noTouch, int frp, byte sec)
   }
 }
 
-// Turning On or Turning Off the selected rele and show them on screen
 void Screen::manageReleSymbolAndAction(int index, int onOff)
 {
   if (onOff == 0)

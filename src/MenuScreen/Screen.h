@@ -363,10 +363,8 @@ public:
           if (rowItem == 3)
           {
             saveDate(dateTemp);
-            delay(30);
-            Serial.println(" 1M: ");
+            delay(1000);
             saveTime(hourEMinTimeClockTemp);
-            Serial.println(" 2M: ");
             waitingActionMenu();
             exitFromMenu();
             return setMenuAndChangingPage(true, false);

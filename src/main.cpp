@@ -313,7 +313,7 @@ void loop()
       ec = accessories->getEC_DF(int(temperature));
       ecAuto = true;
     }
-    else if(ecAuto)
+    else if (ecAuto)
     {
       ecAuto = false;
       accessories->activeSensorEC(PIN_EC_SENSOR_POWER, false);
@@ -332,12 +332,12 @@ void loop()
       menu->showMonitoring(keyEC, ec, temperature);
       ecManual = true;
     }
-    else if(ecManual)
+    else if (ecManual)
     {
       accessories->activeSensorEC(PIN_EC_SENSOR_POWER, false);
       ecManual = false;
     }
-    
+
     // Sending EC value to WEB DB
     if (sdCard->getOnOffECSending())
     {
@@ -388,12 +388,12 @@ void loop()
       ph = accessories->getPH(int(temperature));
       menu->showMonitoring(keyPh, ph, temperature);
     }
-    else if(phManual)
+    else if (phManual)
     {
       phManual = false;
       accessories->activeSensorPH(PIN_PH_SENSOR_POWER, false);
     }
-   
+
     // Sending PH value to WEB DB
     if (sdCard->getOnOffPhSending())
     {
@@ -404,7 +404,8 @@ void loop()
       }
     }
   }
-  else{
+  else
+  {
     if (menu->checkIfSendPHToWebManually())
     {
       menu->setManualSendingPH(false);
@@ -604,36 +605,35 @@ void Screen::dateSetting()
 
 void Screen::saveTime(byte *hourEMin)
 {
-  char timeBuffer[8];
-  char timeBufferSub[8];
-  // char dateBuffer[11];
-
-  // Serial.print("1T: ");
-  sprintf(timeBuffer, "%02d:%02d:00", hourEMin[0], hourEMin[1]);
-  // Serial.print("2T: ");
-  // sprintf(dateBuffer, "%s %02d %04d",  timeData->getMonthName(), timeData->getDay(), timeData->getYear());
-  // Serial.print("3T: ");
-  substring(timeBuffer, timeBufferSub, 1, 8);
-  // Serial.print("Time buffer: "+String(dateBuffer)+ " "+String(timeBufferSub));
-  // Serial.print("T: ");
-  // Serial.println(sizeof(dateBuffer));
-  timeData->setTimeAndData((__DATE__), timeBufferSub);
+  // char timeBuffer[8];
+  // char timeBufferSub[8];
+  //  char dateBuffer[11];
+  //  Serial.print("1T: ");
+  // sprintf(timeBuffer, "%02d:%02d:00", hourEMin[0], hourEMin[1]);
+  //  Serial.print("2T: ");
+  //  sprintf(dateBuffer, "%s %02d %04d",  timeData->getMonthName(), timeData->getDay(), timeData->getYear());
+  //  Serial.print("3T: ");
+  // substring(timeBuffer, timeBufferSub, 1, 8);
+  //  Serial.print("Time buffer: "+String(dateBuffer)+ " "+String(timeBufferSub));
+  //  Serial.print("T: ");
+  //  Serial.println(sizeof(dateBuffer));
+  timeData->setTimeAndData1(timeData->getYear(), timeData->getMonth(), timeData->getDay(), hourEMin[0], hourEMin[1], 0);
 }
 
 void Screen::saveDate(int *date)
 {
-  char dateBuffer[11];
+  // char dateBuffer[11];
   // char timeBuffer[8];
   // char timeBufferSub[8];
   // sprintf(timeBuffer, "%02d:%02d:%02d", timeData->getHour(), timeData->getMinute(), timeData->getSecond());
-  sprintf(dateBuffer, "%s %02d %04d", timeData->monthName(date[1]), date[0], date[2]);
+  // sprintf(dateBuffer, "%s %02d %04d", timeData->monthName(date[1]), date[0], date[2]);
   // substring(timeBuffer, timeBufferSub, 1,8);
   // Serial.println("Date buffer date: " + String(dateBuffer) );
   // Serial.println("Date buffer time: " + String(timeBufferSub));
-  // Serial.print("D: ");
+  // Serial.printf("D: %d, %d, %d, %d, %d, %d, ",date[2], date[1], date[0], timeData->getHour(), timeData->getMinute(), timeData->getSecond());
   // Serial.println(sizeof(dateBuffer));
   // Serial.println(sizeof(timeBufferSub));
-  timeData->setTimeAndData(dateBuffer, (__TIME__));
+  timeData->setTimeAndData1(date[2], date[1], date[0], timeData->getHour(), timeData->getMinute(), timeData->getSecond());
 }
 
 void Screen::saveTimerLights(byte *hourAndMin)

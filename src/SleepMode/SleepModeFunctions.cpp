@@ -4,14 +4,15 @@
 
 #include "SleepModeFunctions.h"
 
-/*
-If the ESP32 is asleep and you touch T3, the ESP will wake up
-– the callback() function won’t be executed if you just press and release the touch pin;
-If the ESP32 is awake and you touch T3, the callback function will be executed.
-So, if you want to execute the callback() function when you wake up the ESP32,
-you need to hold the touch on that pin for a while, until the function is executed.
-In this case the callback() function is empty.
-*/
+/**
+ * @fn callback
+ * @brief If the ESP32 is asleep and you touch T3, the ESP will wake up
+ * – the callback() function won’t be executed if you just press and release the touch pin;
+ * If the ESP32 is awake and you touch T3, the callback function will be executed.
+ * So, if you want to execute the callback() function when you wake up the ESP32,
+ * you need to hold the touch on that pin for a while, until the function is executed.
+ * In this case the callback() function is empty.
+ */
 void callback()
 {
   // placeholder callback function
@@ -28,10 +29,6 @@ SleepLogic::SleepLogic(int timeToSleep, int threshold)
   esp_sleep_enable_touchpad_wakeup();
 }
 
-/*
-  Going to sleep when the wake up time is expired, the counter will be reset each time a key is pressed.
-  The function returns the seconds left to go to sleep. If the value is -1, it means that it isn't the time to go to sleep.
-*/
 int SleepLogic::sleepCountDown(int keyPad, byte noTouch, int sleepDuration, int frp, int sec, int secondToSleep, int minuteToSleep)
 {
   static unsigned long timePointSleep = millis();
@@ -56,9 +53,6 @@ int SleepLogic::sleepCountDown(int keyPad, byte noTouch, int sleepDuration, int 
   return -1;
 }
 
-/*
-  Setting the sleeping configuration and holding the pins state during the sleep mode.
-*/
 void SleepLogic::goToSleep(int sleepSeconds)
 {
   // Configure Timer as wakeup source
@@ -112,9 +106,6 @@ void SleepLogic::goToSleep(int sleepSeconds)
   esp_deep_sleep_start();
 }
 
-/*
-  Printing the reason by which ESP32 has been awaken from sleep and disabling gpio pad hold function.
-*/
 bool SleepLogic::printWakeupReason()
 {
   esp_sleep_wakeup_cause_t wakeup_reason;
@@ -234,9 +225,6 @@ bool SleepLogic::printWakeupReason()
   }
 }
 
-/*
-  Pinting the touchpad by which ESP32 has been awaken from sleep
-*/
 void SleepLogic::printWakeupTouchpad()
 {
 

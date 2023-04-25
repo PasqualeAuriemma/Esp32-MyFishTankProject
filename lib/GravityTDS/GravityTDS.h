@@ -18,6 +18,8 @@
 #define GRAVITY_TDS_H
 
 #include "Arduino.h"
+#include <Wire.h>
+#include <Adafruit_ADS1X15.h>
 
 #define ReceivedBufferLengthEC 15
 #define TdsFactor 0.5  // tds = ec / 2
@@ -29,6 +31,8 @@ public:
 
     void begin();  //initialization
     void update(); //read and calculate
+    void beginWithAds();  //initialization
+    void updateWithAds(); //read and calculate
     void setPin(int pin); 
     void setTemperature(float temp);  //set the temperature and execute temperature compensation
     void setAref(float value);  //reference voltage on ADC, default 5.0V on Arduino UNO
@@ -70,6 +74,7 @@ public:
     void removeNamespaceVariable();
 
 private:
+    Adafruit_ADS1115 ads;  /* Use this for the 16-bit version */
     int pin;
     float aref;  // default 5.0V on Arduino UNO
     float adcRange;

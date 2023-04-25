@@ -1,6 +1,7 @@
 /*
  * Aquarium Project Pasquale
    Manual calibration: neutral:1496.48,acid:1948.57
+   
  */
 
 #include "AccessoriesManaging.h"
@@ -25,12 +26,12 @@ Accessories::Accessories(int tdsPin, int phPin, int enableTdsPin, int enablePhPi
   ph.begin();
 
   // inizialize ec class
-  this->tdsPin = 35;
+  this->tdsPin = 0; // pin ADS1115
   gravityTds.setPin(this->tdsPin);
   gravityTds.setAref(5);        // reference voltage on ADC, default 5.0V on Arduino UNO
   gravityTds.setAdcRange(4096); // 1024 for 10bit ADC;4096 for 12bit ADC
-  // gravityTds.manualFlashMemoryWrite(0.34); //0.47 if you want to add neutral value in Falsh memory manually
-  gravityTds.begin(); // initialization
+  //gravityTds.manualFlashMemoryWrite(0.89); //0.47 if you want to add neutral value in Falsh memory manually
+  gravityTds.beginWithAds(); // initialization
 
   // Thermometer init
   thermometerSensor.begin();
@@ -39,6 +40,7 @@ Accessories::Accessories(int tdsPin, int phPin, int enableTdsPin, int enablePhPi
 
   // set Mosfet pins
   pinMode(enableTdsPin, OUTPUT);
+
   digitalWrite(enableTdsPin, HIGH);
   pinMode(enablePhPin, OUTPUT);
   digitalWrite(enablePhPin, HIGH);
@@ -47,7 +49,7 @@ Accessories::Accessories(int tdsPin, int phPin, int enableTdsPin, int enablePhPi
 float Accessories::getEC_DF(float temperature)
 {
   gravityTds.setTemperature(temperature); // set the temperature and execute temperature compensation
-  gravityTds.update();                    // sample and calculate
+  gravityTds.updateWithAds();                    // sample and calculate
   // tdsValue = gravityTds.getTdsValue();  // then get the value
   // read the analog value and store into the buffer
   analogBuffer[analogBufferIndex] = gravityTds.getEcValue(); // read the analog value and store into the buffer
@@ -67,7 +69,7 @@ float Accessories::getEC_DF(float temperature)
     }
     ecValue = getMedianNum(analogBufferTemp, SCOUNT);
   }
-  // Serial.print(ecValue); Serial.println(" uS/cm");
+  Serial.print(ecValue); Serial.println(" uS/cm");
   return ecValue;
 }
 

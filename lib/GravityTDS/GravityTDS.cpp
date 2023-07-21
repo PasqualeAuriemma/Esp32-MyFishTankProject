@@ -20,7 +20,6 @@
 #include <Preferences.h>
 #include <driver/adc.h>
 
-
 /*Remove a Namespace
 In the Arduino implementation of Preferences, there is no method of completely removing a namespace. As a result,
  over the course of several projects, the ESP32 non-volatile storage (nvs) Preferences partition may become full. 
@@ -38,7 +37,6 @@ void loop() {
 }*/
 
 Preferences ecPreferences;
-
 
 GravityTDS::GravityTDS(){
     this->pin = T1;
@@ -76,6 +74,10 @@ void GravityTDS::begin(){
   adc1_config_width(ADC_WIDTH_BIT_12); 
   adc1_config_channel_atten(ADC1_CHANNEL_7,ADC_ATTEN_DB_6);
    
+	readKValues();
+}
+
+void GravityTDS::beginWithAds(){
 	readKValues();
 }
 
@@ -136,34 +138,19 @@ void GravityTDS::update(){
   }
 }
 
-void GravityTDS::beginWithAds(){
-  
-  // The ADC input range (or gain) can be changed via the following
-  // functions, but be careful never to exceed VDD +0.3V max, or to
-  // exceed the upper and lower limits if you adjust the input range!
-  // Setting these values incorrectly may destroy your ADC!
-  //                                                                ADS1015  ADS1115
-  //                                                                -------  -------
-  // ads.setGain(GAIN_TWOTHIRDS);  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)
-  // ads.setGain(GAIN_ONE);        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV
-  ads.setGain(GAIN_TWO);        // 2x gain   +/- 2.048V  1 bit = 1mV      0.0625mV
-  // ads.setGain(GAIN_FOUR);       // 4x gain   +/- 1.024V  1 bit = 0.5mV    0.03125mV
-  // ads.setGain(GAIN_EIGHT);      // 8x gain   +/- 0.512V  1 bit = 0.25mV   0.015625mV
-  // ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
-  Serial.println("ADS begin ...");
-  // ads.begin(); 
-  if (!ads.begin()) {
-    Serial.println("Failed to initialize ADS.");  
-  }
-	readKValues();
-}
-
-void GravityTDS::updateWithAds(){
-  this->analogValue = ads.readADC_SingleEnded(this->pin); // read the analog value
-	this->voltage = ads.computeVolts(this->analogValue);
+void GravityTDS::updateWithAds(float analogValue, float voltage){
+  this->analogValue = analogValue; // Analog value
+	this->voltage = voltage;
 	this->ecValue=(133.42*this->voltage*this->voltage*this->voltage - 255.86*this->voltage*this->voltage + 857.39*this->voltage)*this->kValue;
 	this->ecValue25  =  this->ecValue / (1.0+0.02*(this->temperature-25.0));  //temperature compensation
-	Serial.print("AnalogValue: ");
+	this->tdsValue = ecValue25 * TdsFactor;
+	if(cmdSerialDataAvailable() > 0){
+    ecCalibration(cmdParse());  // if received serial cmd from the serial monitor, enter into the calibration mode
+  }
+}
+
+void GravityTDS::show(){
+  Serial.print("AnalogValue: ");
   Serial.print(this->analogValue);
   Serial.print(" Voltage: ");
   Serial.print(this->voltage);
@@ -173,10 +160,6 @@ void GravityTDS::updateWithAds(){
   Serial.println(this->ecValue25);
   Serial.print(" kValue: ");
   Serial.println(this->kValue);
-	this->tdsValue = ecValue25 * TdsFactor;
-	if(cmdSerialDataAvailable() > 0){
-    ecCalibration(cmdParse());  // if received serial cmd from the serial monitor, enter into the calibration mode
-  }
 }
 
 float GravityTDS::getTdsValue(){
@@ -190,7 +173,7 @@ float GravityTDS::getEcValue(){
 void GravityTDS::readKValues(){
     ecPreferences.begin(this->ecConf, false);
     this->kValue = ecPreferences.getFloat(this->kValueName, 1.0);
-    Serial.print("EC -> kValue: ");
+    Serial.print(" - EC -> kValue: ");
     Serial.println(this->kValue);  
     ecPreferences.end();
 }

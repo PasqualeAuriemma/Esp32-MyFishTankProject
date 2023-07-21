@@ -58,6 +58,8 @@
 #include "DFRobot_PH.h"
 #include <string.h>
 #include "GravityTDS.h"
+#include <Wire.h>
+#include <Adafruit_ADS1X15.h>
 #define VREF 5.00 // analog reference voltage(Volt) of the ADC
 #define SCOUNT 30 // sum of sample point
 
@@ -67,6 +69,7 @@ class Accessories
 private:
   GravityTDS gravityTds;
   DFRobot_PH ph;
+  Adafruit_ADS1115 ads;  /* Use this for the 16-bit version */
   int phPin = 34;
   int tdsPin = 35;
   bool tempOnOffHeater = false;
@@ -101,7 +104,7 @@ private:
   int p = 0;
 
 public:
-  Accessories(int tdsPin, int phPin, int enableTdsPin, int enablePhPin);
+  Accessories(int tdsPin, int phPin, int enableTdsPin, int enablePhPin, int onOff_ADS);
   Accessories() {}
   ~Accessories() {}
 
@@ -153,6 +156,8 @@ public:
    */
   float getEC_DF(float temperature);
 
+  float getEC_DF_withADS(float temperature);
+
   /**
    * @fn getPH
    * @brief Getting the PH from Gravity: Analog pH Sensor / Meter Pro Kit V2
@@ -179,6 +184,8 @@ public:
    * @return Getting the PH from Gravity: Analog pH Sensor / Meter Pro Kit V2
    */
   float getPH(float temperature);
+
+  float getPH_DF_withADS(float temperature);
  
   float getPH1(float temperature);
  

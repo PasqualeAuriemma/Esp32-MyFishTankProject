@@ -1,7 +1,7 @@
 /*
  * Aquarium Project Pasquale
    Manual calibration: neutral:1496.48,acid:1948.57
-   
+
  */
 
 #include "AccessoriesManaging.h"
@@ -14,33 +14,78 @@ OneWire oneWire(oneWireBus);
 // Pass our oneWire reference to Dallas Temperature sensor
 DallasTemperature thermometerSensor(&oneWire);
 
-Accessories::Accessories(int tdsPin, int phPin, int enableTdsPin, int enablePhPin)
+Accessories::Accessories(int tdsPin, int phPin, int enableTdsPin, int enablePhPin, int onOff_ADS)
 {
 
   Serial.println("Init Accessories!");
-  // inizialize ph class
-  this->phPin = phPin;
-  pinMode(this->phPin, INPUT);
-  // ph.manualFlashMemoryWrite(acid, 1948.57); // if you want to add neutral value in Falsh memory manually
-  // ph.manualFlashMemoryWrite(neutral, 1496.48); // if you want to add neutral value in Falsh memory manually
-  ph.begin();
 
-  // inizialize ec class
-  this->tdsPin = 0; // pin ADS1115
-  gravityTds.setPin(this->tdsPin);
-  gravityTds.setAref(5);        // reference voltage on ADC, default 5.0V on Arduino UNO
-  gravityTds.setAdcRange(4096); // 1024 for 10bit ADC;4096 for 12bit ADC
-  //gravityTds.manualFlashMemoryWrite(0.89); //0.47 if you want to add neutral value in Falsh memory manually
-  gravityTds.beginWithAds(); // initialization
+  if (onOff_ADS == 0)
+  {
+    Serial.println(" PH begin...");
+    // inizialize ph class
+    this->phPin = phPin;
+    pinMode(this->phPin, INPUT);
+    //ph.manualFlashMemoryWrite(acid, 1948.57); // if you want to add neutral value in Falsh memory manually
+    //ph.manualFlashMemoryWrite(neutral, 1436.48); // if you want to add neutral value in Falsh memory manually
+     //ph.manualFlashMemoryWrite(acid, 1948.57); // if you want to add neutral value in Falsh memory manually
+    // ph.manualFlashMemoryWrite(neutral, 1496.48);
+    
+    ph.begin();
 
+    Serial.println(" EC begin...");
+    // inizialize ec class
+    this->tdsPin = tdsPin; // pin ADS1115
+    // gravityTds.manualFlashMemoryWrite(0.89); //0.47 if you want to add neutral value in Falsh memory manually
+    gravityTds.beginWithAds(); // initialization
+
+    // The ADC input range (or gain) can be changed via the following
+    // functions, but be careful never to exceed VDD +0.3V max, or to
+    // exceed the upper and lower limits if you adjust the input range!
+    // Setting these values incorrectly may destroy your ADC!
+    //                                                                ADS1015  ADS1115
+    //                                                                -------  -------
+    // ads.setGain(GAIN_TWOTHIRDS);  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)
+    ads.setGain(GAIN_ONE);        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV
+    //ads.setGain(GAIN_TWO); // 2x gain   +/- 2.048V  1 bit = 1mV      0.0625mV
+    // ads.setGain(GAIN_FOUR);       // 4x gain   +/- 1.024V  1 bit = 0.5mV    0.03125mV
+    // ads.setGain(GAIN_EIGHT);      // 8x gain   +/- 0.512V  1 bit = 0.25mV   0.015625mV
+    // ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
+    Serial.println(" ADS begin...");
+    // ads.begin();
+    if (!ads.begin())
+    {
+      Serial.println(" -!- Failed to initialize ADS.");
+    }
+  }
+  else
+  {
+    Serial.println(" PH begin...");
+    // inizialize ph class
+    this->phPin = phPin;
+    pinMode(this->phPin, INPUT);
+    //ph.manualFlashMemoryWrite(acid, 1948.57); // if you want to add neutral value in Falsh memory manually
+    // ph.manualFlashMemoryWrite(neutral, 1496.48); // if you want to add neutral value in Falsh memory manually
+    ph.begin();
+
+    Serial.println(" EC begin...");
+    // inizialize ec class
+    this->tdsPin = 35;
+    gravityTds.setPin(this->tdsPin);
+    gravityTds.setAref(5);        // reference voltage on ADC, default 5.0V on Arduino UNO
+    gravityTds.setAdcRange(4096); // 1024 for 10bit ADC;4096 for 12bit ADC
+    // gravityTds.manualFlashMemoryWrite(0.34); //0.47 if you want to add neutral value in Falsh memory manually
+    gravityTds.begin(); // initialization
+  }
+  
+  Serial.println(" Thermometer begin...");
   // Thermometer init
   thermometerSensor.begin();
   setFirstTimePH(true);
   setFirstTimeEC(true);
 
+  Serial.println(" MOFSET begin...");
   // set Mosfet pins
   pinMode(enableTdsPin, OUTPUT);
-
   digitalWrite(enableTdsPin, HIGH);
   pinMode(enablePhPin, OUTPUT);
   digitalWrite(enablePhPin, HIGH);
@@ -48,8 +93,9 @@ Accessories::Accessories(int tdsPin, int phPin, int enableTdsPin, int enablePhPi
 
 float Accessories::getEC_DF(float temperature)
 {
+
   gravityTds.setTemperature(temperature); // set the temperature and execute temperature compensation
-  gravityTds.updateWithAds();                    // sample and calculate
+  gravityTds.update();                    // sample and calculate
   // tdsValue = gravityTds.getTdsValue();  // then get the value
   // read the analog value and store into the buffer
   analogBuffer[analogBufferIndex] = gravityTds.getEcValue(); // read the analog value and store into the buffer
@@ -69,7 +115,41 @@ float Accessories::getEC_DF(float temperature)
     }
     ecValue = getMedianNum(analogBufferTemp, SCOUNT);
   }
-  Serial.print(ecValue); Serial.println(" uS/cm");
+  Serial.print(ecValue);
+  Serial.println(" uS/cm");
+  return ecValue;
+}
+
+float Accessories::getEC_DF_withADS(float temperature)
+{
+  float analogValue = ads.readADC_SingleEnded(this->tdsPin); // read the analog value
+  float voltage = ads.computeVolts(analogValue);
+  gravityTds.setTemperature(temperature);         // set the temperature and execute temperature compensation
+  gravityTds.updateWithAds(analogValue, voltage); // sample and calculate
+  // tdsValue = gravityTds.getTdsValue();  // then get the value
+  // read the analog value and store into the buffer
+  analogBuffer[analogBufferIndex] = gravityTds.getEcValue(); // read the analog value and store into the buffer
+  analogBufferIndex++;
+  if (analogBufferIndex == SCOUNT)
+  {
+    analogBufferIndex = 0;
+  }
+
+  static unsigned long timepoint = millis();
+  if (millis() - timepoint > 1000U)
+  { // time interval: 1s
+    timepoint = millis();
+    for (copyIndexEC = 0; copyIndexEC < SCOUNT; copyIndexEC++)
+    {
+      analogBufferTemp[copyIndexEC] = analogBuffer[copyIndexEC];
+    }
+    ecValue = getMedianNum(analogBufferTemp, SCOUNT);
+  }
+  //Serial.print(ecValue);
+  //Serial.print(" uS/cm  ---> ");
+  
+  //gravityTds.show();
+  
   return ecValue;
 }
 
@@ -282,12 +362,48 @@ float Accessories::getPH(float temperature)
     voltage = getMedianNum(analogBufferTempPH, SCOUNT) / 4095.0 * 3300; // read the analog value more stable by the median filtering algorithm, and convert to voltage real value
     phValue = ph.readPH(voltage, temperature);                          // convert voltage to pH with temperature compensation
 
-    Serial.print("PH -> voltage:");
-    Serial.print(voltage);
-    Serial.print(" temperature:");
-    Serial.print(temperature, 1);
-    Serial.print(" pH:");
-    Serial.println(phValue, 2);
+    //ph.show();
+
+    char cmd[10];
+    if (readSerial(cmd))
+    {
+      upperCase(cmd);
+      if (strstr(cmd, "PH"))
+      {
+        ph.calibration(voltage, temperature, cmd); // PH calibration process by Serail CMD
+      }
+    }
+  }
+  // ph.calibration(voltage, temperature);
+  return phValue;
+}
+
+float Accessories::getPH_DF_withADS(float temperature)
+{
+  int16_t readADC = ads.readADC_SingleEnded(this->phPin); // read the analog value and store into the buffer
+  analogBufferPH[analogBufferIndexPH] = readADC;
+  analogBufferIndexPH++;
+  if (analogBufferIndexPH == SCOUNT)
+  {
+    analogBufferIndexPH = 0;
+  }
+  static unsigned long timepoint1 = millis();
+  if (millis() - timepoint1 > 1000U)
+  { // time interval: 1s
+    timepoint1 = millis();
+    for (copyIndexPH = 0; copyIndexPH < SCOUNT; copyIndexPH++)
+    {
+      analogBufferTempPH[copyIndexPH] = analogBufferPH[copyIndexPH];
+    }
+    
+    voltage = getMedianNum(analogBufferTempPH, SCOUNT); // read the analog value more stable by the median filtering algorithm, and convert to voltage real value
+    Serial.print("media ");
+    Serial.println(getMedianNum(analogBufferTempPH, SCOUNT));
+    Serial.println(voltage);
+    
+    phValue = ph.readPH(voltage, temperature); // convert voltage to pH with temperature compensation
+
+    ph.show();
 
     char cmd[10];
     if (readSerial(cmd))

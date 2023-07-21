@@ -1,4 +1,4 @@
-Changing the name of the database in localhost.sql file:
+Changing the database name in localhost.sql file:
 
 --
 -- Database: `my_name_your_db`

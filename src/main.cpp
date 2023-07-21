@@ -13,10 +13,11 @@
 #include "Accessories/AccessoriesManaging.h"
 
 #define CHOOSE_SCREEN 2 // 1 LCD - 2 OLED
+#define CHOOSE_ADS 0 // 0 WITH ADS - 1 WITHOUT ADS
 #define PIN_EC_SENSOR_POWER 17
 #define PIN_PH_SENSOR_POWER 14
-#define TdsSensorPin A7
-#define PH_PIN A6
+#define TdsSensorPin 0
+#define PH_PIN A7
 
 /*PIN MAPPING ESP32
    -------------------I/O DIGITALI--------------------------------
@@ -33,11 +34,13 @@
    ---------------------------------------------------------------
    5v alimentazione board
    gnd alimentazione board
-   -----------------I ANALOGICI-----------------------------------
+   -------------------I/O ANALOGICI-------------------------------
    G4  Tasti keypad
-   G35 TDS-EC Meter v 1.0 KS0429
    G34 PH
    G13 DS18B20
+   ------------------ADS1115--------------------------------------
+   A0-ADS TDS-EC Meter v 1.0 KS0429
+   ------------------I2C------------------------------------------
    G21 SDA
    G22 SCL
 */
@@ -136,7 +139,7 @@ void setup()
     menu = new Oled(keyPad->getOkKeyPadValue());
   }
 
-  accessories = new Accessories(TdsSensorPin, PH_PIN, PIN_EC_SENSOR_POWER, PIN_PH_SENSOR_POWER);
+  accessories = new Accessories(TdsSensorPin, PH_PIN, PIN_EC_SENSOR_POWER, PIN_PH_SENSOR_POWER, CHOOSE_ADS);
 
   connection = new ConnectionManaging(sdCard->getSSID(), sdCard->getPassword(), sdCard->getHostName(), sdCard->getCert());
 
@@ -310,7 +313,7 @@ void loop()
     if (accessories->checkIfGetMeasurement(sdCard->getFreqUpdateWebEC(), 1, byte(orario_[0]), byte(orario_[1]), 3))
     {
       accessories->activeSensorEC(PIN_EC_SENSOR_POWER, true);
-      ec = accessories->getEC_DF(int(temperature));
+      ec = accessories->getEC_DF_withADS(int(temperature));
       ecAuto = true;
     }
     else if (ecAuto)
@@ -328,7 +331,7 @@ void loop()
     if (menu->checkIfShowECMonitoringOnScreen())
     {
       accessories->activeSensorEC(PIN_EC_SENSOR_POWER, true);
-      ec = accessories->getEC_DF(int(temperature));
+      ec = accessories->getEC_DF_withADS(int(temperature));
       menu->showMonitoring(keyEC, ec, temperature);
       ecManual = true;
     }

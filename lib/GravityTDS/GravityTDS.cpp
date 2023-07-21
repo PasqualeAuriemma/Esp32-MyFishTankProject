@@ -77,6 +77,10 @@ void GravityTDS::begin(){
 	readKValues();
 }
 
+void GravityTDS::beginWithAds(){
+	readKValues();
+}
+
 float GravityTDS::getKvalue(){
 	return this->kValue;
 }
@@ -134,6 +138,30 @@ void GravityTDS::update(){
   }
 }
 
+void GravityTDS::updateWithAds(float analogValue, float voltage){
+  this->analogValue = analogValue; // Analog value
+	this->voltage = voltage;
+	this->ecValue=(133.42*this->voltage*this->voltage*this->voltage - 255.86*this->voltage*this->voltage + 857.39*this->voltage)*this->kValue;
+	this->ecValue25  =  this->ecValue / (1.0+0.02*(this->temperature-25.0));  //temperature compensation
+	this->tdsValue = ecValue25 * TdsFactor;
+	if(cmdSerialDataAvailable() > 0){
+    ecCalibration(cmdParse());  // if received serial cmd from the serial monitor, enter into the calibration mode
+  }
+}
+
+void GravityTDS::show(){
+  Serial.print("AnalogValue: ");
+  Serial.print(this->analogValue);
+  Serial.print(" Voltage: ");
+  Serial.print(this->voltage);
+  Serial.print(" Temperature: ");
+  Serial.print(temperature);
+  Serial.print(" EcValue: ");
+  Serial.println(this->ecValue25);
+  Serial.print(" kValue: ");
+  Serial.println(this->kValue);
+}
+
 float GravityTDS::getTdsValue(){
 	return tdsValue;
 }
@@ -145,7 +173,7 @@ float GravityTDS::getEcValue(){
 void GravityTDS::readKValues(){
     ecPreferences.begin(this->ecConf, false);
     this->kValue = ecPreferences.getFloat(this->kValueName, 1.0);
-    Serial.print("EC -> kValue: ");
+    Serial.print(" - EC -> kValue: ");
     Serial.println(this->kValue);  
     ecPreferences.end();
 }

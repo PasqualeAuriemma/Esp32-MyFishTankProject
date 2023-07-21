@@ -26,9 +26,12 @@ class GravityTDS{
 public:
     GravityTDS();
     ~GravityTDS();
-
+    
+    void show();
     void begin();  //initialization
     void update(); //read and calculate
+    void beginWithAds();  //initialization
+    void updateWithAds(float analogValue, float voltage); //read and calculate
     void setPin(int pin); 
     void setTemperature(float temp);  //set the temperature and execute temperature compensation
     void setAref(float value);  //reference voltage on ADC, default 5.0V on Arduino UNO
@@ -70,6 +73,7 @@ public:
     void removeNamespaceVariable();
 
 private:
+    
     int pin;
     float aref;  // default 5.0V on Arduino UNO
     float adcRange;

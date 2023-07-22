@@ -14,7 +14,12 @@
 - 10 Monitor OLED
 - 11 ADS1115 Board
 
-<img src="https://github.com/PasqualeAuriemma/Esp32-MyFishTankProject/blob/master/images/Example1.jpg" width=50% height=50%>
 
+  <img src="https://github.com/PasqualeAuriemma/Esp32-MyFishTankProject/blob/master/images/Example1.jpg" width=50% height=50%>
 
-<img src="https://github.com/PasqualeAuriemma/Esp32-MyFishTankProject/blob/master/images/webApp.jpg" width=50% height=50%>
+<div class="scroll-container" style=" background-color: #333;
+  overflow: auto;
+  white-space: nowrap;
+  padding: 10px;">
+<img src="https://github.com/PasqualeAuriemma/Esp32-MyFishTankProject/blob/master/images/webApp.jpg">
+</div>

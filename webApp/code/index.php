@@ -966,7 +966,7 @@
               //buttons: {  
               //    X: function() {$(this).dialog("close");}  
               // },  
-              title: "Consumption of products",  
+              title: "Products consumption",  
               width: (windowWidth * 90 /100), 
 			  show: {
 				effect: "blind",

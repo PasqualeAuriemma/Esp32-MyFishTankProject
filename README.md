@@ -17,9 +17,12 @@
 
   <img src="https://github.com/PasqualeAuriemma/Esp32-MyFishTankProject/blob/master/images/Example1.jpg" width=50% height=50%>
 
-<div class="scroll-container" style=" background-color: #333;
-  overflow: auto;
-  white-space: nowrap;
-  padding: 10px;">
+<div class="scroll-container" style="background-color: #fed9ff;
+  width: 600px;
+  height: 150px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+  padding: 20px;">
 <img src="https://github.com/PasqualeAuriemma/Esp32-MyFishTankProject/blob/master/images/webApp.jpg">
 </div>

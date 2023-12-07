@@ -49,8 +49,8 @@
 
 // dati salvati in una memoria speciale per essere ripresi dopo lo sleep
 RTC_DATA_ATTR int bootCount = 0;
-// const char* ssid = "FASTWEB-F2D36D";//"DESKTOP-B0CAUQR 2037";//"PIA_POCO_F3"; //;
-// const char* password = "Tigrotto3";//"Pasquale";//"A30?2p10";
+// const char* ssid = "";
+// const char* password = "";
 // const char*  server = "www.forestaaquatica.altervista.org";
 
 // Global Variables

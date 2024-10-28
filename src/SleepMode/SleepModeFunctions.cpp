@@ -57,7 +57,7 @@ void SleepLogic::goToSleep(int sleepSeconds)
 {
   // Configure Timer as wakeup source
   esp_sleep_enable_timer_wakeup(sleepSeconds * uS_TO_S_FACTOR);
-  Serial.println("Setup ESP32 to sleep for every " + String(sleepSeconds) + " Seconds");
+  Serial.println("Setting ESP32 to sleep for " + String(sleepSeconds) + " Seconds");
   if (ESP_OK == gpio_hold_en(GPIO_NUM_14))
   {
     Serial.print("HOLD 14 - ");

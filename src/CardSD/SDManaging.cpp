@@ -57,36 +57,36 @@ void SDCard::saveConfiguration()
   StaticJsonDocument<1536> doc;
 
   // Set the values in the document
-  doc["startHour"] = config.startHour;
-  doc["startMinutes"] = config.startMinutes;
-  doc["endHour"] = config.endHour;
-  doc["endMinutes"] = config.endMinutes;
-  doc["tempMax"] = config.tempMax;
-  doc["tempMin"] = config.tempMin;
-  doc["autoEnabled"] = config.autoEnabled;
-  doc["manteinEnabled"] = config.manteinEnabled;
-  doc["onOffLightAuto"] = config.onOffLightAuto;
-  doc["onOffHeater"] = config.onOffHeater;
-  doc["onOffEC"] = config.onOffEC;
-  doc["onOffPH"] = config.onOffPH;
-  doc["onOffTemperature"] = config.onOffTemperature;
-  doc["onOffFilter"] = config.onOffFilter;
-  doc["onOffTemperatureSending"] = config.onOffTemperatureSending;
-  doc["onOffECSending"] = config.onOffECSending;
-  doc["onOffPhSending"] = config.onOffPhSending;
-  doc["freqUpdateWebTemperature"] = config.freqUpdateWebTemperature;
-  doc["freqUpdateWebEC"] = config.freqUpdateWebEC;
-  doc["freqUpdateWebPH"] = config.freqUpdateWebPH;
-  doc["freqFilter"] = config.freqFilter;
-  doc["hourLoading"] = config.hourLoading;
-  doc["minLoading"] = config.minLoading;
-  doc["relay0"] = config.relay0;
-  doc["relay1"] = config.relay1;
-  doc["relay2"] = config.relay2;
-  doc["relay3"] = config.relay3;
-  doc["temperature"] = config.temperature;
-  doc["ec"] = config.ec;
-  doc["ph"] = config.ph;
+  doc["startHour"] = getStartHour();
+  doc["startMinutes"] = getStartMinutes();
+  doc["endHour"] = getEndHour();
+  doc["endMinutes"] = getEndMinutes();
+  doc["tempMax"] = getTempMax();
+  doc["tempMin"] = getTempMin();
+  doc["autoEnabled"] = getAutoEnabled();
+  doc["manteinEnabled"] = getManteinEnabled();
+  doc["onOffLightAuto"] = getOnOffLightAuto();
+  doc["onOffHeater"] = getOnOffHeater();
+  doc["onOffEC"] = getOnOffEC();
+  doc["onOffPH"] = getOnOffPH();
+  doc["onOffTemperature"] = getOnOffTemperature();
+  doc["onOffFilter"] = getOnOffFilter();
+  doc["onOffTemperatureSending"] = getOnOffTemperatureSending();
+  doc["onOffECSending"] = getOnOffECSending();
+  doc["onOffPhSending"] = getOnOffPhSending();
+  doc["freqUpdateWebTemperature"] = getFreqUpdateWebTemperature();
+  doc["freqUpdateWebEC"] = getFreqUpdateWebEC();
+  doc["freqUpdateWebPH"] = getFreqUpdateWebPH();
+  doc["freqFilter"] = getFreqFilter();
+  doc["hourLoading"] = getHourLoading();
+  doc["minLoading"] = getMinLoading();
+  doc["relay0"] = getRelay0();
+  doc["relay1"] = getRelay1();
+  doc["relay2"] = getRelay2();
+  doc["relay3"] = getRelay3();
+  doc["temperature"] = getTemperature();
+  doc["ec"] = getEc();
+  doc["ph"] = getPh();
 
   // Serialize JSON to file
   if (serializeJson(doc, file) == 0)
@@ -148,36 +148,36 @@ void SDCard::setConfiguration()
   doc["temperature"] = 0.0;
   doc["ec"] = 0.0;
   doc["ph"] = 0.0;
-  config.startHour = doc["startHour"];
-  config.startMinutes = doc["startMinutes"];
-  config.endHour = doc["endHour"];
-  config.endMinutes = doc["endMinutes"];
-  config.tempMax = doc["tempMax"];
-  config.tempMin = doc["tempMin"];
-  config.autoEnabled = doc["autoEnabled"];
-  config.manteinEnabled = doc["manteinEnabled"];
-  config.onOffLightAuto = doc["onOffLightAuto"];
-  config.onOffHeater = doc["onOffHeater"];
-  config.onOffEC = doc["onOffEC"];
-  config.onOffPH = doc["onOffPH"];
-  config.onOffTemperature = doc["onOffTemperature"];
-  config.onOffFilter = doc["onOffFilter"];
-  config.onOffTemperatureSending = doc["onOffTemperatureSending"];
-  config.onOffECSending = doc["onOffECSending"];
-  config.onOffPhSending = doc["onOffPhSending"];
-  config.freqUpdateWebTemperature = doc["freqUpdateWebTemperature"];
-  config.freqUpdateWebEC = doc["freqUpdateWebEC"];
-  config.freqUpdateWebPH = doc["freqUpdateWebPH"];
-  config.freqFilter = doc["freqFilter"];
-  config.hourLoading = doc["hourLoading"];
-  config.minLoading = doc["minLoading"];
-  config.relay0 = doc["relay0"];
-  config.relay1 = doc["relay1"];
-  config.relay2 = doc["relay2"];
-  config.relay3 = doc["relay3"];
-  config.temperature = doc["temperature"];
-  config.ec = doc["ec"];
-  config.ph = doc["ph"];
+  setStartHour(doc["startHour"]);
+  setStartMinutes(doc["startMinutes"]);
+  setEndHour(doc["endHour"]);
+  setEndMinutes(doc["endMinutes"]);
+  setTempMax(doc["tempMax"]);
+  setTempMin(doc["tempMin"]);
+  setAutoEnabled(doc["autoEnabled"]);
+  setManteinEnabled(doc["manteinEnabled"]);
+  setOnOffLightAuto(doc["onOffLightAuto"]);
+  setOnOffHeater(doc["onOffHeater"]);
+  setOnOffEC(doc["onOffEC"]);
+  setOnOffPH(doc["onOffPH"]);
+  setOnOffTemperature(doc["onOffTemperature"]);
+  setOnOffFilter(doc["onOffFilter"]);
+  setOnOffTemperatureSending(doc["onOffTemperatureSending"]);
+  setOnOffECSending(doc["onOffECSending"]);
+  setOnOffPhSending(doc["onOffPhSending"]);
+  setFreqUpdateWebTemperature(doc["freqUpdateWebTemperature"]);
+  setFreqUpdateWebEC(doc["freqUpdateWebEC"]);
+  setFreqUpdateWebPH(doc["freqUpdateWebPH"]);
+  setFreqFilter(doc["freqFilter"]);
+  setHourLoading(doc["hourLoading"]);
+  setMinLoading(doc["minLoading"]);
+  setRelay0(doc["relay0"]);
+  setRelay1(doc["relay1"]);
+  setRelay2(doc["relay2"]);
+  setRelay3(doc["relay3"]);
+  setTemperature(doc["temperature"]);
+  setEc(doc["ec"]);
+  setPh(doc["ph"]);
 
   // Serialize JSON to file
   if (serializeJson(doc, file) == 0)
@@ -210,36 +210,36 @@ void SDCard::loadConfiguration()
   // Close the file (Curiously, File's destructor doesn't close the file)
   file.close();
   // Copy values from the JsonDocument to the Config
-  config.startHour = doc["startHour"];
-  config.startMinutes = doc["startMinutes"];
-  config.endHour = doc["endHour"];
-  config.endMinutes = doc["endMinutes"];
-  config.tempMax = doc["tempMax"];
-  config.tempMin = doc["tempMin"];
-  config.autoEnabled = doc["autoEnabled"];
-  config.manteinEnabled = doc["manteinEnabled"];
-  config.onOffLightAuto = doc["onOffLightAuto"];
-  config.onOffHeater = doc["onOffHeater"];
-  config.onOffEC = doc["onOffEC"];
-  config.onOffPH = doc["onOffPH"];
-  config.onOffTemperature = doc["onOffTemperature"];
-  config.onOffFilter = doc["onOffFilter"];
-  config.onOffTemperatureSending = doc["onOffTemperatureSending"];
-  config.onOffECSending = doc["onOffECSending"];
-  config.onOffPhSending = doc["onOffPhSending"];
-  config.freqUpdateWebTemperature = doc["freqUpdateWebTemperature"];
-  config.freqUpdateWebEC = doc["freqUpdateWebEC"];
-  config.freqUpdateWebPH = doc["freqUpdateWebPH"];
-  config.freqFilter = doc["freqFilter"];
-  config.hourLoading = doc["hourLoading"];
-  config.minLoading = doc["minLoading"];
-  config.relay0 = doc["relay0"];
-  config.relay1 = doc["relay1"];
-  config.relay2 = doc["relay2"];
-  config.relay3 = doc["relay3"];
-  config.temperature = doc["temperature"];
-  config.ec = doc["ec"];
-  config.ph = doc["ph"];
+  setStartHour(doc["startHour"]);
+  setStartMinutes(doc["startMinutes"]);
+  setEndHour(doc["endHour"]);
+  setEndMinutes(doc["endMinutes"]);
+  setTempMax(doc["tempMax"]);
+  setTempMin(doc["tempMin"]);
+  setAutoEnabled(doc["autoEnabled"]);
+  setManteinEnabled(doc["manteinEnabled"]);
+  setOnOffLightAuto(doc["onOffLightAuto"]);
+  setOnOffHeater(doc["onOffHeater"]);
+  setOnOffEC(doc["onOffEC"]);
+  setOnOffPH(doc["onOffPH"]);
+  setOnOffTemperature(doc["onOffTemperature"]);
+  setOnOffFilter(doc["onOffFilter"]);
+  setOnOffTemperatureSending(doc["onOffTemperatureSending"]);
+  setOnOffECSending(doc["onOffECSending"]);
+  setOnOffPhSending(doc["onOffPhSending"]);
+  setFreqUpdateWebTemperature(doc["freqUpdateWebTemperature"]);
+  setFreqUpdateWebEC(doc["freqUpdateWebEC"]);
+  setFreqUpdateWebPH(doc["freqUpdateWebPH"]);
+  setFreqFilter(doc["freqFilter"]);
+  setHourLoading(doc["hourLoading"]);
+  setMinLoading(doc["minLoading"]);
+  setRelay0(doc["relay0"]);
+  setRelay1(doc["relay1"]);
+  setRelay2(doc["relay2"]);
+  setRelay3(doc["relay3"]);
+  setTemperature(doc["temperature"]);
+  setEc(doc["ec"]);
+  setPh(doc["ph"]);
 }
 
 void SDCard::loadCertificate()
@@ -461,48 +461,48 @@ void SDCard::deleteFile(fs::FS &fs, const char *path)
 
 void SDCard::onAutomaticProcess()
 {
-  config.onOffLightAuto = true;
-  config.onOffHeater = true;
-  config.onOffFilter = true;
-  // config.onOffEC = true;
-  // config.onOffPH = true;
-  // config.onOffTemperature = true;
-  // config.onOffTemperatureSending = true;
-  // config.onOffECSending = true;
-  // config.onOffPhSending = true;
-  config.autoEnabled = true;
-  config.manteinEnabled = false;
+  setOnOffLightAuto(true);
+  setOnOffHeater(true);
+  setOnOffFilter(true);
+  // setOnOffEC(true);
+  // setOnOffPH(true);
+  // setOnOffTemperature(true);
+  // setOnOffTemperatureSending(true);
+  // setOnOffECSending(true);
+  // setOnOffPhSending(true);
+  setAutoEnabled(true);
+  setManteinEnabled(false);
 }
 
 void SDCard::offAutomaticProcess()
 {
-  config.onOffLightAuto = false;
-  config.onOffHeater = false;
-  config.onOffFilter = false;
-  config.onOffEC = false;
-  config.onOffPH = false;
-  config.onOffTemperature = false;
-  config.onOffTemperatureSending = false;
-  config.onOffECSending = false;
-  config.onOffPhSending = false;
-  config.autoEnabled = false;
-  config.manteinEnabled = true;
+  setOnOffLightAuto(false);
+  setOnOffHeater(false);
+  setOnOffFilter(false);
+  setOnOffEC(false);
+  setOnOffPH(false);
+  setOnOffTemperature(false);
+  setOnOffTemperatureSending(false);
+  setOnOffECSending(false);
+  setOnOffPhSending(false);
+  setAutoEnabled(false);
+  setManteinEnabled(true);
 }
 
 void SDCard::activeTemperatureMonitoring(boolean value)
 {
-  config.onOffTemperatureSending = value;
-  config.onOffTemperature = value;
+  setOnOffTemperatureSending(value);
+  setOnOffTemperature(value);
 }
 
 void SDCard::activeECMonitoring(boolean value)
 {
-  config.onOffECSending = value;
-  config.onOffEC = value;
+  setOnOffECSending(value);
+  setOnOffEC(value);
 }
 
 void SDCard::activePHMonitoring(boolean value)
 {
-  config.onOffPhSending = value;
-  config.onOffPH = value;
+  setOnOffPhSending(value);
+  setOnOffPH(value);
 }

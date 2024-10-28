@@ -509,13 +509,15 @@ bool Accessories::manageAquariumLights(int h, int m, int startHour, int endHour,
     return tempOnOffLight;
   }
 
-  //  Serial.println("------------------------------");
-  //  Serial.println("orario timer per illuminazione");
-  //  Serial.println("ORA ACCENSIONE = " + String(startHour));
-  //  Serial.println("MINUTI ACCENSIONE = " + String(config.startMinutes));
-  //  Serial.println("ORA SPEGNIMENTO = " + String(config.endHour));
-  //  Serial.println("MINUTI SPEGNIMENTO = " + String(config.endMinutes));
-  //  Serial.println("------------------------------");
+    //Serial.println("------------------------------");
+    //Serial.println("orario timer per illuminazione");
+    //Serial.println("ORA ACCENSIONE = " + String(startHour));
+    //Serial.println("MINUTI ACCENSIONE = " + String(startMinutes));
+    //Serial.println("ORA CORRENTE = " + String(h));
+    //Serial.println("MINUTI CORRENTE = " + String(m));
+    //Serial.println("ORA SPEGNIMENTO = " + String(endHour));
+    //Serial.println("MINUTI SPEGNIMENTO = " + String(endMinutes));
+    //Serial.println("------------------------------");
 }
 
 bool Accessories::checkIfGetMeasurement(byte pivot, byte selectedMinute, byte hours, byte minutes, byte duration)

@@ -162,6 +162,25 @@ void setup()
   // Setting the analogue pin for input pad touched and turn on the internal pullup resistor
   pinMode(keyPad->getPin(), INPUT_PULLUP);
 
+  // Waking up side with load relay
+  releSymbol[0] = sdCard->getRelay0();
+  releSymbol[1] = sdCard->getRelay1();
+  releSymbol[2] = sdCard->getRelay2();
+  releSymbol[3] = sdCard->getRelay3();
+
+  for (int i = 0; i < numRele; i++)
+  {
+    pinMode(rele[i], OUTPUT);
+    if (!releSymbol[i])
+    {
+      digitalWrite(rele[i], HIGH);
+    }
+    else
+    {
+      digitalWrite(rele[i], LOW);
+    }
+  }
+  
   // Show init animation with the welcome message only the first time not after the sleep mode.
   if (sleepLogic->printWakeupReason())
   {
@@ -174,26 +193,15 @@ void setup()
   }
   else
   {
-    // Waking up side with load relay
-    releSymbol[0] = sdCard->getRelay0();
-    releSymbol[1] = sdCard->getRelay1();
-    releSymbol[2] = sdCard->getRelay2();
-    releSymbol[3] = sdCard->getRelay3();
-    for (int i = 0; i < numRele; i++)
-    {
-      pinMode(rele[i], OUTPUT);
-      if (!releSymbol[i])
-      {
-        digitalWrite(rele[i], HIGH);
-      }
-      else
-      {
-        digitalWrite(rele[i], LOW);
-      }
-    }
     // Force to turn on the screen backlight in loading
     menu->checkScreenBackLight(keyPad->getUpKeyPadValue(), keyPad->getResetKeyPadValue(), menu->getFrameRate(), 30);
   }
+
+  //for (int i = 0; i < numRele; i++)
+  //{
+  //  pinMode(rele[i], OUTPUT);
+  //  digitalWrite(rele[i], HIGH);
+  //}
 
   // Setting Auto Process or maintenance
   if (sdCard->getManteinEnabled())
